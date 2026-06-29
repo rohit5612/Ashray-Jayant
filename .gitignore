@@ -24,10 +24,15 @@ dist-ssr
 *.sw?
 
 # Video assets (large files — keep local for now)
-src/assets/**/*.mp4
-src/assets/**/*.webm
-src/assets/**/*.mov
-src/assets/**/videos/
-public/**/*.mp4
-public/**/*.webm
-public/**/*.mov
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+portfolio/src/assets/**/*.mp4
+portfolio/src/assets/**/*.webm
+portfolio/src/assets/**/*.mov
+portfolio/src/assets/**/videos/
+portfolio/public/**/*.mp4
+portfolio/public/**/*.webm
+portfolio/public/**/*.mov

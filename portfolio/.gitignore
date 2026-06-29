@@ -24,10 +24,10 @@ dist-ssr
 *.sw?
 
 # Video assets (large files — keep local for now)
-src/assets/**/*.mp4
-src/assets/**/*.webm
-src/assets/**/*.mov
+# Note: repo root .gitignore handles root-level videos; patterns below are for this subfolder
+**/*.mp4
+**/*.webm
+**/*.mov
+**/*.avi
+**/*.mkv
 src/assets/**/videos/
-public/**/*.mp4
-public/**/*.webm
-public/**/*.mov
