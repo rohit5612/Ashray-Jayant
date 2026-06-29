@@ -26,6 +26,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -41,6 +42,11 @@
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  body.menu-open {
+    overflow: hidden;
   }
 
   #root {
@@ -62,7 +68,15 @@
 
 @layer utilities {
   .section-padding {
-    @apply py-28 md:py-36;
+    @apply py-20 sm:py-28 md:py-36;
+  }
+
+  .safe-bottom {
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-right {
+    padding-right: max(1.5rem, env(safe-area-inset-right));
   }
 
   .font-display {
@@ -111,6 +125,18 @@
     opacity: 0.025;
   }
 
+  .hero-headline {
+    font-size: clamp(1.75rem, 6.5vw + 0.65rem, 5.25rem);
+    line-height: 0.92;
+    overflow-wrap: anywhere;
+  }
+
+  @media (min-width: 640px) {
+    .hero-headline {
+      line-height: 0.94;
+    }
+  }
+
   .fade-bg-text {
     font-family: var(--font-display);
     font-weight: 800;
@@ -137,8 +163,10 @@
       box-shadow 300ms ease;
   }
 
-  .interactive-lift:hover {
-    transform: translateY(-4px) scale(1.02);
+  @media (hover: hover) {
+    .interactive-lift:hover {
+      transform: translateY(-4px) scale(1.02);
+    }
   }
 
   .btn-glow:hover {
@@ -206,12 +234,14 @@
     border-radius: 3px 0 0 3px;
   }
 
-  .skill-card:hover {
-    transform: translateY(-3px) scale(1.02);
-    border-color: rgb(var(--skill-accent) / 0.35);
-    box-shadow:
-      0 8px 28px rgb(0 0 0 / 0.35),
-      0 0 24px rgb(var(--skill-accent) / 0.18);
+  @media (hover: hover) {
+    .skill-card:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: rgb(var(--skill-accent) / 0.35);
+      box-shadow:
+        0 8px 28px rgb(0 0 0 / 0.35),
+        0 0 24px rgb(var(--skill-accent) / 0.18);
+    }
   }
 
   .skill-card-icon {

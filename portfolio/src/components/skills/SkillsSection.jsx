@@ -77,7 +77,7 @@ export default function SkillsSection() {
             backgroundSize: '48px 48px',
           }}
         />
-        <span className="fade-bg-text absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[12rem] md:text-[18rem]">
+        <span className="fade-bg-text absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[6rem] sm:text-[10rem] md:text-[18rem]">
           SKILL
         </span>
       </div>
@@ -86,7 +86,7 @@ export default function SkillsSection() {
         <SectionLabel className="text-accent-purple" data-reveal>
           Toolkit
         </SectionLabel>
-        <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl" data-reveal>
+        <h2 className="mt-4 font-display text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl" data-reveal>
           Skills
         </h2>
         <p className="mt-4 max-w-2xl text-text-secondary md:text-lg" data-reveal>

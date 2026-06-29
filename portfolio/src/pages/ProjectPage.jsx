@@ -9,7 +9,7 @@ import ProjectBand from '../components/projects/detail/ProjectBand'
 import ProjectSectionHeader from '../components/projects/detail/ProjectSectionHeader'
 import ProjectMetaStrip from '../components/projects/detail/ProjectMetaStrip'
 
-const bandPad = 'py-12 md:py-16'
+const bandPad = 'py-10 sm:py-12 md:py-16'
 
 export default function ProjectPage() {
   const { slug } = useParams()
@@ -25,12 +25,12 @@ export default function ProjectPage() {
   return (
     <article>
       {/* Hero */}
-      <header className="relative min-h-[55svh] pt-24">
+      <header className="relative min-h-[50svh] pt-20 sm:min-h-[55svh] sm:pt-24">
         <div className="absolute inset-0">
           <OptimizedImage
             src={project.coverImage}
             alt=""
-            className="h-full min-h-[55svh] object-cover"
+            className="h-full min-h-[50svh] object-cover sm:min-h-[55svh]"
             width={1600}
             height={900}
             priority
@@ -39,7 +39,7 @@ export default function ProjectPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-bg-primary/90 via-bg-primary/45 to-transparent md:max-w-[65%]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[calc(55svh-6rem)] max-w-7xl flex-col justify-end px-6 pb-8 md:px-10 md:pb-10">
+        <div className="relative z-10 mx-auto flex min-h-[calc(50svh-5rem)] max-w-7xl flex-col justify-end px-4 pb-6 sm:min-h-[calc(55svh-6rem)] sm:px-6 sm:pb-8 md:px-10 md:pb-10">
           <Link
             to="/#projects"
             className="mb-6 inline-flex w-fit items-center gap-2 rounded-full border border-border bg-bg-elevated/90 px-4 py-2 text-sm text-text-muted backdrop-blur-sm transition-colors hover:border-accent-cyan/40 hover:text-accent-cyan"
@@ -54,16 +54,16 @@ export default function ProjectPage() {
             })}
           </div>
 
-          <h1 className="mt-4 max-w-4xl font-display text-4xl font-semibold leading-[1.05] md:text-5xl lg:text-6xl">
+          <h1 className="mt-4 max-w-4xl font-display text-3xl font-semibold leading-[1.08] sm:text-4xl md:text-5xl lg:text-6xl">
             {project.title}
           </h1>
-          <p className="mt-2 text-lg text-accent-cyan">{project.subtitle}</p>
+          <p className="mt-2 text-base text-accent-cyan sm:text-lg">{project.subtitle}</p>
         </div>
       </header>
 
       {/* 01 — Overview + role */}
       <ProjectBand variant="light" className={bandPad}>
-        <div className="mx-auto max-w-7xl space-y-10 px-6 md:space-y-12 md:px-10">
+        <div className="mx-auto max-w-7xl space-y-8 px-4 sm:space-y-10 sm:px-6 md:space-y-12 md:px-10">
           <div>
             <ProjectSectionHeader
               index="01"
@@ -94,7 +94,7 @@ export default function ProjectPage() {
 
       {/* 02 — Gameplay + gallery */}
       <ProjectBand variant="muted" className={bandPad}>
-        <div className="mx-auto max-w-7xl space-y-10 px-6 md:px-10">
+        <div className="mx-auto max-w-7xl space-y-8 px-4 sm:space-y-10 sm:px-6 md:px-10">
           <div>
             <ProjectSectionHeader index="02" label="Media" title="Gameplay & gallery" compact />
             <div className="overflow-hidden rounded-xl border border-border bg-bg-elevated p-1.5 shadow-md">
@@ -132,7 +132,7 @@ export default function ProjectPage() {
 
       {/* 03 — Features */}
       <ProjectBand variant="light" className={bandPad}>
-        <div className="mx-auto max-w-7xl px-6 md:px-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
           <ProjectSectionHeader index="03" label="Systems" title="Key features" compact />
           <ul className="grid gap-3 sm:grid-cols-2">
             {project.features.map((feature, i) => (
@@ -152,7 +152,7 @@ export default function ProjectPage() {
 
       {/* 04 — Reflection + tech + links */}
       <ProjectBand variant="dark" className={bandPad}>
-        <div className="mx-auto max-w-7xl space-y-10 px-6 md:px-10">
+        <div className="mx-auto max-w-7xl space-y-8 px-4 sm:space-y-10 sm:px-6 md:px-10">
           <ProjectSectionHeader
             index="04"
             label="Wrap-up"
@@ -229,10 +229,10 @@ export default function ProjectPage() {
 
       {/* Prev / next */}
       <ProjectBand variant="light" className="border-t border-border py-8">
-        <nav className="mx-auto max-w-7xl px-6 md:px-10">
-          <div className="flex justify-between gap-6">
+        <nav className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
+          <div className="flex flex-col gap-6 sm:flex-row sm:justify-between sm:gap-6">
             {prev ? (
-              <Link to={`/project/${prev.slug}`} className="group max-w-[45%]">
+              <Link to={`/project/${prev.slug}`} className="group max-w-full sm:max-w-[45%]">
                 <span className="text-[10px] tracking-widest text-text-muted uppercase">Previous</span>
                 <p className="mt-1 font-display text-base font-semibold transition-colors group-hover:text-accent-cyan md:text-lg">
                   ← {prev.title}
@@ -242,7 +242,7 @@ export default function ProjectPage() {
               <span />
             )}
             {next ? (
-              <Link to={`/project/${next.slug}`} className="group max-w-[45%] text-right">
+              <Link to={`/project/${next.slug}`} className="group max-w-full text-left sm:max-w-[45%] sm:text-right">
                 <span className="text-[10px] tracking-widest text-text-muted uppercase">Next</span>
                 <p className="mt-1 font-display text-base font-semibold transition-colors group-hover:text-accent-cyan md:text-lg">
                   {next.title} →

@@ -19,7 +19,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-border bg-bg-secondary/50">
-      <div className="mx-auto flex max-w-7xl flex-col gap-8 px-6 py-8 md:flex-row md:items-center md:justify-between md:px-10">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:gap-8 sm:px-6 md:flex-row md:items-center md:justify-between md:px-10">
         <Link to="/" className="flex items-center gap-3">
           <img
             src={profile.avatar}
@@ -57,7 +57,7 @@ export default function Footer() {
           )}
         </nav>
 
-        <div className="flex items-center gap-5 md:flex-col md:items-end md:gap-3">
+        <div className="flex items-center justify-between gap-4 sm:items-end sm:gap-5 md:flex-col md:items-end md:gap-3">
           <SocialLinks social={profile.social} size="sm" />
           <p className="text-xs text-text-muted">© {year}</p>
         </div>

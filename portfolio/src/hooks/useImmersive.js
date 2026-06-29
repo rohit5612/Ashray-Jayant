@@ -52,7 +52,8 @@ export function useHeroMouseParallax(sectionRef, showcaseRef) {
     if (!section || !showcase) return
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches
+    if (prefersReduced || coarsePointer) return
 
     const depthEls = showcase.querySelectorAll('[data-hero-depth]')
     let rafId = null

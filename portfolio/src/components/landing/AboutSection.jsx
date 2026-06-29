@@ -19,7 +19,7 @@ export default function AboutSection() {
   return (
     <SectionShell id="about" className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-end overflow-hidden pr-0 md:pr-10" aria-hidden="true">
-        <span className="fade-bg-text text-right text-[10rem] md:text-[16rem]">
+        <span className="fade-bg-text text-right text-[5rem] sm:text-[8rem] md:text-[16rem]">
           {about.bgWord}
         </span>
       </div>
@@ -54,7 +54,7 @@ export default function AboutSection() {
         <div className="lg:col-span-7">
           <SectionLabel data-reveal>{about.eyebrow}</SectionLabel>
           <h2
-            className="mt-4 font-display text-4xl font-semibold leading-tight md:text-5xl lg:text-6xl"
+            className="mt-4 font-display text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl lg:text-6xl"
             data-reveal
           >
             {about.headline}
@@ -64,7 +64,7 @@ export default function AboutSection() {
 
           <div className="space-y-5">
             {about.paragraphs.map((p) => (
-              <p key={p.slice(0, 24)} className="text-lg leading-relaxed text-text-secondary" data-reveal>
+              <p key={p.slice(0, 24)} className="text-base leading-relaxed text-text-secondary md:text-lg" data-reveal>
                 {p}
               </p>
             ))}

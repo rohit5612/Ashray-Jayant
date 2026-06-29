@@ -9,7 +9,7 @@ function MilestoneNode({ milestone, isLast }) {
   const isJam = milestone.tags?.includes('GAME_JAM')
 
   return (
-    <div className="relative flex gap-8 pb-16" data-reveal>
+    <div className="relative flex gap-5 pb-12 sm:gap-8 sm:pb-16" data-reveal>
       {!isLast && (
         <div
           className="absolute top-3 left-[7px] h-full w-px bg-gradient-to-b from-accent-purple/60 via-accent-cyan/40 to-transparent"
@@ -58,7 +58,7 @@ export default function JourneySection() {
         {BG_WORDS.map((word, i) => (
           <span
             key={word}
-            className="fade-bg-text absolute font-display text-[8rem] font-extrabold md:text-[12rem]"
+            className="fade-bg-text absolute font-display text-[5rem] font-extrabold sm:text-[8rem] md:text-[12rem]"
             style={{
               top: `${15 + i * 28}%`,
               left: i % 2 === 0 ? '-2%' : 'auto',
@@ -74,14 +74,14 @@ export default function JourneySection() {
         <p className="text-sm font-medium tracking-[0.3em] text-accent-cyan uppercase" data-reveal>
           Growth
         </p>
-        <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl" data-reveal>
+        <h2 className="mt-4 font-display text-3xl font-semibold sm:text-4xl md:text-5xl" data-reveal>
           Journey
         </h2>
         <p className="mt-4 max-w-2xl text-text-secondary" data-reveal>
           From first lines of code to gameplay systems — documenting the path forward.
         </p>
 
-        <div className="relative mt-16 max-w-2xl">
+        <div className="relative mt-10 max-w-2xl sm:mt-16">
           <div
             className="absolute top-0 bottom-0 left-[7px] w-px bg-accent-purple/20"
             aria-hidden="true"

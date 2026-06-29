@@ -16,12 +16,12 @@ export default function ProjectsSection() {
 
   return (
     <SectionShell id="projects" className="!px-0">
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
         <div ref={ref}>
           <SectionLabel className="text-accent-purple" data-reveal>
             Selected Work
           </SectionLabel>
-          <h2 className="mt-4 font-display text-4xl font-semibold md:text-5xl lg:text-6xl" data-reveal>
+          <h2 className="mt-4 font-display text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl" data-reveal>
             Projects
           </h2>
           <p className="mt-4 max-w-2xl text-text-secondary md:text-lg" data-reveal>
@@ -31,7 +31,7 @@ export default function ProjectsSection() {
       </div>
 
       {featured.length > 0 && (
-        <div className="mx-auto mt-14 flex max-w-7xl flex-col gap-10 px-6 md:mt-20 md:px-10">
+        <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-8 px-4 sm:mt-14 sm:px-6 md:mt-20 md:px-10">
           {featured.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
@@ -39,7 +39,7 @@ export default function ProjectsSection() {
       )}
 
       {supporting.length > 0 && (
-        <div className="mx-auto mt-16 max-w-7xl px-6 md:mt-24 md:px-10">
+        <div className="mx-auto mt-12 max-w-7xl px-4 sm:mt-16 sm:px-6 md:mt-24 md:px-10">
           <p className="mb-8 text-xs font-medium tracking-[0.25em] text-text-muted uppercase">
             More Work
           </p>
@@ -52,7 +52,7 @@ export default function ProjectsSection() {
       )}
 
       {others.length > 0 && (
-        <div className="mx-auto mt-16 max-w-7xl px-6 pb-4 md:mt-20 md:px-10">
+        <div className="mx-auto mt-12 max-w-7xl px-4 pb-4 sm:mt-16 sm:px-6 md:mt-20 md:px-10">
           <p className="mb-6 text-xs font-medium tracking-[0.25em] text-text-muted uppercase">
             Experiments & Learning
           </p>

@@ -23,7 +23,7 @@ export default function ContactSection() {
           Contact
         </p>
         <h2
-          className="mt-4 font-display text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl"
+          className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-6xl lg:text-7xl"
           data-reveal
         >
           {contact.headline}

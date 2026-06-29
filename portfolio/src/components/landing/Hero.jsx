@@ -11,11 +11,33 @@ import { useHeroIntro, useHeroMouseParallax } from '../../hooks/useImmersive'
 import { getProjectLayoutFromTags } from '../../utils/tags'
 
 const FLOATING_BADGES = [
-  { label: 'Unreal Engine', style: 'top-[8%] right-[5%]', delay: 0 },
-  { label: 'Unity', style: 'bottom-[28%] left-[-4%]', delay: 0.5 },
-  { label: 'Gameplay', style: 'top-[42%] right-[-6%]', delay: 1 },
-  { label: 'C++', style: 'bottom-[12%] right-[12%]', delay: 1.5 },
+  { label: 'Unreal Engine', delay: 0 },
+  { label: 'Unity', delay: 0.5 },
+  { label: 'Gameplay', delay: 1 },
+  { label: 'C++', delay: 1.5 },
 ]
+
+const BADGE_DESKTOP_POSITIONS = [
+  'top-[6%] right-[2%]',
+  'bottom-[24%] left-[2%]',
+  'top-[38%] right-[-2%]',
+  'bottom-[10%] right-[8%]',
+]
+
+function MobileSkillPills() {
+  return (
+    <div className="mt-4 flex flex-wrap gap-2 md:hidden" aria-hidden="true">
+      {FLOATING_BADGES.map((badge) => (
+        <span
+          key={badge.label}
+          className="rounded-full border border-border bg-bg-elevated/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.12em] text-text-secondary uppercase backdrop-blur-sm"
+        >
+          {badge.label}
+        </span>
+      ))}
+    </div>
+  )
+}
 
 function CinematicBackground({ sectionRef }) {
   const bgRef = useRef(null)
@@ -97,15 +119,15 @@ function CinematicBackground({ sectionRef }) {
       {/* Sharp bright cores — tight blur for harder falloff */}
       <div
         ref={orb1Ref}
-        className="absolute -top-[10%] -left-[8%] h-[42vh] w-[42vh] rounded-full bg-accent-purple-bright/50 blur-[72px]"
+        className="absolute -top-[10%] -left-[8%] h-[32vh] w-[32vh] rounded-full bg-accent-purple-bright/50 blur-[56px] sm:h-[38vh] sm:w-[38vh] sm:blur-[64px] md:h-[42vh] md:w-[42vh] md:blur-[72px]"
       />
       <div
         ref={orb2Ref}
-        className="absolute top-[18%] -right-[6%] h-[38vh] w-[38vh] rounded-full bg-accent-cyan-bright/45 blur-[64px]"
+        className="absolute top-[18%] -right-[6%] h-[28vh] w-[28vh] rounded-full bg-accent-cyan-bright/45 blur-[48px] sm:h-[34vh] sm:w-[34vh] sm:blur-[56px] md:h-[38vh] md:w-[38vh] md:blur-[64px]"
       />
       <div
         ref={orb3Ref}
-        className="absolute bottom-[5%] left-[30%] h-[28vh] w-[28vh] rounded-full bg-accent-warm/35 blur-[56px]"
+        className="absolute bottom-[5%] left-[30%] h-[20vh] w-[20vh] rounded-full bg-accent-warm/35 blur-[40px] sm:h-[24vh] sm:w-[24vh] md:h-[28vh] md:w-[28vh] md:blur-[56px]"
       />
 
       {/* High-contrast radial beams — abrupt stops */}
@@ -131,8 +153,8 @@ function SubtleParticles() {
       left: `${8 + ((i * 17) % 84)}%`,
       top: `${5 + ((i * 23) % 90)}%`,
       size: i % 3 === 0 ? 2 : 1.5,
-      opacity: 0.15 + (i % 5) * 0.05,
       duration: 6 + (i % 4) * 2,
+      hideOnMobile: i % 2 === 0,
     })),
   ).current
 
@@ -141,7 +163,7 @@ function SubtleParticles() {
       {particles.map((p) => (
         <span
           key={p.id}
-          className="absolute rounded-full bg-accent-cyan-bright animate-pulse"
+          className={`absolute rounded-full bg-accent-cyan-bright animate-pulse ${p.hideOnMobile ? 'hidden sm:block' : ''}`}
           style={{
             left: p.left,
             top: p.top,
@@ -221,37 +243,37 @@ function HeroVisual({ showcaseRef }) {
   }, [])
 
   return (
-    <div ref={showcaseRef} className="relative mx-auto w-full max-w-lg lg:max-w-none" data-hero-parallax>
-      {FLOATING_BADGES.map((badge) => (
+    <div ref={showcaseRef} className="relative mx-auto w-full max-w-md sm:max-w-lg md:max-w-none" data-hero-parallax>
+      {FLOATING_BADGES.map((badge, i) => (
         <FloatingBadge
           key={badge.label}
           label={badge.label}
-          className={badge.style}
+          className={`hidden md:block ${BADGE_DESKTOP_POSITIONS[i]}`}
           delay={badge.delay}
         />
       ))}
 
       <div
         ref={imageRevealRef}
-        className="relative overflow-hidden rounded-card border-glow shadow-2xl"
+        className="relative overflow-hidden rounded-2xl border-glow shadow-2xl sm:rounded-card"
         data-hero-depth="1"
       >
-        <div className="aspect-video w-full overflow-hidden">
+        <div className="aspect-[16/10] w-full overflow-hidden sm:aspect-video">
           <OptimizedImage
             src={featured?.coverImage}
             alt={featured?.title ?? 'Featured project'}
-            className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
+            className="h-full w-full object-cover transition-transform duration-500 md:hover:scale-[1.02]"
             width={1280}
             height={720}
             priority
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6">
-          <p className="text-[10px] font-medium tracking-[0.2em] text-accent-cyan uppercase">
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-transparent sm:from-bg-primary/80 sm:via-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 md:p-6">
+          <p className="text-[9px] font-medium tracking-[0.18em] text-accent-cyan uppercase sm:text-[10px] sm:tracking-[0.2em]">
             Featured
           </p>
-          <p className="mt-1 font-display text-lg font-semibold text-text-primary md:text-xl">
+          <p className="mt-0.5 line-clamp-2 font-display text-base font-semibold text-text-primary sm:mt-1 sm:text-lg md:text-xl">
             {featured?.title}
           </p>
         </div>
@@ -281,19 +303,19 @@ function HeroVisual({ showcaseRef }) {
   )
 }
 
-function ScrollIndicator() {
+function ScrollIndicator({ className = '' }) {
   const { scrollTo } = useLenis()
 
   return (
     <button
       type="button"
       onClick={() => scrollToSection('#projects', scrollTo)}
-      className="group absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-text-muted transition-colors duration-300 hover:text-accent-cyan"
+      className={`group flex flex-col items-center gap-1.5 text-text-muted transition-colors duration-300 hover:text-accent-cyan sm:gap-2 ${className}`}
       aria-label="Scroll to projects"
     >
       <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
-      <span className="flex h-10 w-6 items-start justify-center rounded-full border border-border p-1.5">
-        <span className="h-2 w-1 animate-bounce rounded-full bg-accent-cyan" />
+      <span className="flex h-9 w-5 items-start justify-center rounded-full border border-border p-1 sm:h-10 sm:w-6 sm:p-1.5">
+        <span className="h-1.5 w-1 animate-bounce rounded-full bg-accent-cyan sm:h-2" />
       </span>
     </button>
   )
@@ -312,18 +334,18 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="home"
-      className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-20"
+      className="relative overflow-hidden pb-8 pt-[calc(3.75rem+env(safe-area-inset-top,0px))] md:min-h-[100svh] md:flex md:flex-col md:justify-center md:pb-0 lg:pt-20"
     >
       <CinematicBackground sectionRef={sectionRef} />
       <SubtleParticles />
 
       <div
         ref={containerRef}
-        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 px-6 py-12 md:px-10 lg:grid-cols-2 lg:gap-16 lg:py-20"
+        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-6 px-4 py-8 sm:gap-8 sm:px-6 sm:py-10 md:grid-cols-2 md:gap-10 md:px-10 md:py-14 lg:gap-16 lg:py-20"
       >
-        <div className="order-2 lg:order-1">
+        <div className="min-w-0">
           <p
-            className="mb-5 text-xs font-medium tracking-[0.25em] text-accent-cyan uppercase md:text-sm"
+            className="mb-3 text-[11px] font-medium tracking-[0.2em] text-accent-cyan uppercase sm:mb-4 sm:text-xs sm:tracking-[0.25em] md:mb-5 md:text-sm"
             data-hero-intro
           >
             {profile.heroIntro}
@@ -331,7 +353,7 @@ export function Hero() {
 
           <h1
             data-hero-headline
-            className="font-display text-[2.75rem] leading-[0.92] font-extrabold tracking-tight text-text-primary sm:text-6xl md:text-7xl lg:text-[5.25rem]"
+            className="hero-headline font-display font-extrabold tracking-tight text-text-primary"
           >
             {profile.heroHeadline.map((line) => (
               <span key={line.text} className="block" data-hero-intro>
@@ -344,33 +366,45 @@ export function Hero() {
             ))}
           </h1>
 
-          <p className="mt-6 max-w-md text-base leading-relaxed text-text-secondary md:mt-8 md:text-lg" data-hero-intro>
+          <p
+            className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary sm:mt-5 sm:text-base md:mt-8 md:text-lg"
+            data-hero-intro
+          >
             {profile.heroStatement}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-4 md:mt-10" data-hero-intro>
+          <div
+            className="mt-5 flex w-full flex-col gap-2.5 min-[420px]:flex-row min-[420px]:flex-wrap min-[420px]:items-center sm:mt-6 sm:gap-3 md:mt-8 md:gap-4 lg:mt-10"
+            data-hero-intro
+          >
             <Button
-              className="btn-glow"
+              className="btn-glow w-full min-[420px]:w-auto"
               onClick={() => scrollToSection('#projects', scrollTo)}
             >
               View Projects
             </Button>
-            <Button variant="ghost" onClick={() => scrollToSection('#contact', scrollTo)}>
+            <Button
+              variant="ghost"
+              className="w-full min-[420px]:w-auto"
+              onClick={() => scrollToSection('#contact', scrollTo)}
+            >
               Contact
             </Button>
           </div>
 
-          <div data-hero-intro>
-            <SocialLinks social={profile.social} className="mt-8" size="sm" />
+          <div className="mt-5 flex flex-col items-center gap-4 sm:mt-6 sm:flex-row sm:items-center sm:justify-between md:mt-8" data-hero-intro>
+            <SocialLinks social={profile.social} size="sm" />
+            <ScrollIndicator className="md:hidden" />
           </div>
         </div>
 
-        <div className="order-1 lg:order-2" data-hero-intro>
+        <div className="min-w-0" data-hero-intro>
           <HeroVisual showcaseRef={showcaseRef} />
+          <MobileSkillPills />
         </div>
       </div>
 
-      <ScrollIndicator />
+      <ScrollIndicator className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 md:bottom-8 md:flex" />
     </section>
   )
 }
