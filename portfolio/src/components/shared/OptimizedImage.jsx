@@ -4,6 +4,7 @@ export default function OptimizedImage({
   src,
   alt,
   className = '',
+  imgClassName = '',
   width,
   height,
   priority = false,
@@ -23,7 +24,7 @@ export default function OptimizedImage({
         loading={priority ? 'eager' : 'lazy'}
         decoding="async"
         onLoad={() => setLoaded(true)}
-        className={`h-full w-full object-cover transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        className={`h-full w-full object-cover transition-opacity duration-500 ${imgClassName} ${loaded ? 'opacity-100' : 'opacity-0'}`}
       />
     </div>
   )

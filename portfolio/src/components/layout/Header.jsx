@@ -85,7 +85,7 @@ export default function Header() {
             <img
               src={profile.avatar}
               alt={profile.name}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover object-[center_18%]"
               width={40}
               height={40}
             />

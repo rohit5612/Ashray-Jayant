@@ -1,18 +1,23 @@
-import avatar from '../assets/profile/avatar.svg'
-
 export default {
   name: 'Ashray Jayant',
   gamertag: 'Zeerax',
   title: 'Game Developer · Gameplay Programmer',
-  avatar,
+  avatar: '/ashrayjayant.jpeg',
   heroIntro: 'Gameplay Programmer · Unreal · Unity',
-  heroHeadline: [
-    { text: 'CRAFTING', highlight: false },
-    { text: 'PLAYABLE', highlight: true },
-    { text: 'EXPERIENCES', highlight: false },
-  ],
+  heroStatus: 'Open to opportunities',
+  heroEyebrow: 'Gameplay Programmer',
+  heroHeadline: {
+    primary: 'Gameplay',
+    accent: 'Developer.',
+  },
+  heroTags: ['#Unity', '#Unreal', '#Combat Systems'],
   heroStatement:
-    'Game developer focused on immersive gameplay systems, responsive combat mechanics, and interactive experiences.',
+    'I build responsive combat, player controllers, and systems that feel good the moment you pick up the controller.',
+  heroTagline: 'Built to make every input feel impossible to ignore.',
+  heroCircleCta: {
+    eyebrow: 'See my work',
+    label: 'View Projects',
+  },
   bio: 'Ashray is a gameplay-focused developer who learns by shipping — from jam games to systems-driven prototypes. Interested in feel, player feedback loops, and the craft of making games that respond.',
   about: {
     eyebrow: 'About',

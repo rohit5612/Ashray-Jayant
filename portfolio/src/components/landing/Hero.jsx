@@ -1,59 +1,23 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import profile from '../../data/profile'
 import projects from '../../data/projects'
 import { sortProjects } from '../../utils/sortProjects'
-import Button from '../shared/Button'
 import SocialLinks from '../shared/SocialLinks'
 import OptimizedImage from '../shared/OptimizedImage'
 import { scrollToSection } from '../../utils/scroll'
 import { useLenis } from '../../hooks/useLenis'
-import { useHeroIntro, useHeroMouseParallax } from '../../hooks/useImmersive'
+import { useHeroIntro } from '../../hooks/useImmersive'
 import { getProjectLayoutFromTags } from '../../utils/tags'
 
-const FLOATING_BADGES = [
-  { label: 'Unreal Engine', delay: 0 },
-  { label: 'Unity', delay: 0.5 },
-  { label: 'Gameplay', delay: 1 },
-  { label: 'C++', delay: 1.5 },
-]
-
-const BADGE_DESKTOP_POSITIONS = [
-  'top-[6%] right-[2%]',
-  'bottom-[24%] left-[2%]',
-  'top-[38%] right-[-2%]',
-  'bottom-[10%] right-[8%]',
-]
-
-function MobileSkillPills() {
-  return (
-    <div className="mt-4 flex flex-wrap gap-2 md:hidden" aria-hidden="true">
-      {FLOATING_BADGES.map((badge) => (
-        <span
-          key={badge.label}
-          className="rounded-full border border-border bg-bg-elevated/90 px-2.5 py-1 text-[10px] font-medium tracking-[0.12em] text-text-secondary uppercase backdrop-blur-sm"
-        >
-          {badge.label}
-        </span>
-      ))}
-    </div>
-  )
-}
-
-function CinematicBackground({ sectionRef }) {
+function HeroEnvironment({ sectionRef }) {
   const bgRef = useRef(null)
-  const orb1Ref = useRef(null)
-  const orb2Ref = useRef(null)
-  const orb3Ref = useRef(null)
 
   useEffect(() => {
     const bg = bgRef.current
-    const orb1 = orb1Ref.current
-    const orb2 = orb2Ref.current
-    const orb3 = orb3Ref.current
     const section = sectionRef?.current
-
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced || !bg || !orb1 || !orb2) return
+    if (prefersReduced || !bg || !section) return
 
     let ctx
     let alive = true
@@ -62,49 +26,19 @@ function CinematicBackground({ sectionRef }) {
       const { gsap } = await import('gsap')
       const { ScrollTrigger } = await import('gsap/ScrollTrigger')
       gsap.registerPlugin(ScrollTrigger)
-
-      if (!alive || !bgRef.current) return
+      if (!alive) return
 
       ctx = gsap.context(() => {
-        gsap.to(orb1, {
-          x: 50,
-          y: -40,
-          duration: 12,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
+        gsap.to(bg, {
+          y: 60,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+          },
         })
-        gsap.to(orb2, {
-          x: -45,
-          y: 35,
-          duration: 14,
-          repeat: -1,
-          yoyo: true,
-          ease: 'sine.inOut',
-        })
-        if (orb3) {
-          gsap.to(orb3, {
-            x: 30,
-            y: -25,
-            duration: 10,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-          })
-        }
-
-        if (section) {
-          gsap.to(bg, {
-            y: 100,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true,
-            },
-          })
-        }
       })
     })()
 
@@ -115,296 +49,248 @@ function CinematicBackground({ sectionRef }) {
   }, [sectionRef])
 
   return (
-    <div ref={bgRef} className="pointer-events-none absolute inset-0 overflow-hidden bg-[#020306]" aria-hidden="true">
-      {/* Sharp bright cores — tight blur for harder falloff */}
-      <div
-        ref={orb1Ref}
-        className="absolute -top-[10%] -left-[8%] h-[32vh] w-[32vh] rounded-full bg-accent-purple-bright/50 blur-[56px] sm:h-[38vh] sm:w-[38vh] sm:blur-[64px] md:h-[42vh] md:w-[42vh] md:blur-[72px]"
-      />
-      <div
-        ref={orb2Ref}
-        className="absolute top-[18%] -right-[6%] h-[28vh] w-[28vh] rounded-full bg-accent-cyan-bright/45 blur-[48px] sm:h-[34vh] sm:w-[34vh] sm:blur-[56px] md:h-[38vh] md:w-[38vh] md:blur-[64px]"
-      />
-      <div
-        ref={orb3Ref}
-        className="absolute bottom-[5%] left-[30%] h-[20vh] w-[20vh] rounded-full bg-accent-warm/35 blur-[40px] sm:h-[24vh] sm:w-[24vh] md:h-[28vh] md:w-[28vh] md:blur-[56px]"
-      />
-
-      {/* High-contrast radial beams — abrupt stops */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_45%_35%_at_18%_12%,rgb(233_213_255/0.42)_0%,rgb(167_139_250/0.12)_22%,transparent_48%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_82%_45%,rgb(165_243_252/0.38)_0%,rgb(94_234_212/0.1)_20%,transparent_46%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_30%_25%_at_55%_85%,rgb(251_191_36/0.22)_0%,transparent_42%)]" />
-
-      {/* Diagonal light slice */}
-      <div className="absolute inset-0 bg-[linear-gradient(128deg,transparent_38%,rgb(233_213_255/0.06)_49%,rgb(165_243_252/0.08)_51%,transparent_62%)]" />
-
-      {/* Deep vignette — near-black edges */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#030508_55%,#000000_100%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,#000000/0.5_0%,transparent_35%,transparent_65%,#000000/0.7_100%)]" />
-      <div className="hero-noise absolute inset-0 opacity-[0.04]" />
+    <div ref={bgRef} className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div className="hero-arena absolute inset-0" />
+      <div className="hero-bg-glow absolute inset-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#020204_70%,#000_100%)]" />
+      <div className="hero-noise absolute inset-0 opacity-[0.03]" />
     </div>
   )
 }
 
-function SubtleParticles() {
-  const particles = useRef(
-    Array.from({ length: 18 }, (_, i) => ({
-      id: i,
-      left: `${8 + ((i * 17) % 84)}%`,
-      top: `${5 + ((i * 23) % 90)}%`,
-      size: i % 3 === 0 ? 2 : 1.5,
-      duration: 6 + (i % 4) * 2,
-      hideOnMobile: i % 2 === 0,
-    })),
-  ).current
-
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {particles.map((p) => (
-        <span
-          key={p.id}
-          className={`absolute rounded-full bg-accent-cyan-bright animate-pulse ${p.hideOnMobile ? 'hidden sm:block' : ''}`}
-          style={{
-            left: p.left,
-            top: p.top,
-            width: p.size,
-            height: p.size,
-            opacity: 0.25 + (p.id % 4) * 0.1,
-            animationDuration: `${p.duration}s`,
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function FloatingBadge({ label, className, delay = 0 }) {
+function HeroPortraitShowcase() {
   const ref = useRef(null)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
-
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
-
-    let tween
-    ;(async () => {
-      const { gsap } = await import('gsap')
-      tween = gsap.to(el, {
-        y: -12,
-        duration: 3 + delay,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay,
-      })
-    })()
-
-    return () => tween?.kill()
-  }, [delay])
-
-  return (
-    <span
-      ref={ref}
-      className={`absolute z-20 rounded-full border border-border bg-bg-elevated/90 px-3 py-1.5 text-[10px] font-medium tracking-[0.15em] text-text-secondary uppercase backdrop-blur-sm md:px-4 md:py-2 md:text-xs ${className}`}
-    >
-      {label}
-    </span>
-  )
-}
-
-function HeroVisual({ showcaseRef }) {
-  const sorted = sortProjects(projects)
-  const featured = sorted.find((p) => getProjectLayoutFromTags(p.tags) === 'primary') ?? sorted[0]
-  const miniProjects = sorted.filter((p) => p.id !== featured?.id).slice(0, 2)
-  const imageRevealRef = useRef(null)
-
-  useEffect(() => {
-    const el = imageRevealRef.current
-    if (!el) return
-
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (prefersReduced) return
+    const coarse = window.matchMedia('(pointer: coarse)').matches
+    if (prefersReduced || coarse) return
 
     let ctx
     ;(async () => {
       const { gsap } = await import('gsap')
       ctx = gsap.context(() => {
-        gsap.fromTo(
-          el,
-          { opacity: 0, scale: 0.92, y: 40 },
-          { opacity: 1, scale: 1, y: 0, duration: 1.4, ease: 'power3.out', delay: 0.5 },
-        )
+        gsap.fromTo(el, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out', delay: 0.25 })
       })
     })()
-
     return () => ctx?.revert()
   }, [])
 
   return (
-    <div ref={showcaseRef} className="relative mx-auto w-full max-w-md sm:max-w-lg md:max-w-none" data-hero-parallax>
-      {FLOATING_BADGES.map((badge, i) => (
-        <FloatingBadge
-          key={badge.label}
-          label={badge.label}
-          className={`hidden md:block ${BADGE_DESKTOP_POSITIONS[i]}`}
-          delay={badge.delay}
+    <div className="hero-portrait-showcase pb-12 lg:h-full lg:pb-14" data-hero-intro>
+      <div ref={ref} className="hero-portrait-oval">
+        <OptimizedImage
+          src={profile.avatar}
+          alt={`Portrait of ${profile.name}`}
+          className="h-full w-full"
+          imgClassName="object-cover object-[center_18%] contrast-[1.04] saturate-[0.92]"
+          width={520}
+          height={650}
+          priority
         />
-      ))}
-
-      <div
-        ref={imageRevealRef}
-        className="relative overflow-hidden rounded-2xl border-glow shadow-2xl sm:rounded-card"
-        data-hero-depth="1"
-      >
-        <div className="aspect-[16/10] w-full overflow-hidden sm:aspect-video">
-          <OptimizedImage
-            src={featured?.coverImage}
-            alt={featured?.title ?? 'Featured project'}
-            className="h-full w-full object-cover transition-transform duration-500 md:hover:scale-[1.02]"
-            width={1280}
-            height={720}
-            priority
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/90 via-bg-primary/20 to-transparent sm:from-bg-primary/80 sm:via-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 md:p-6">
-          <p className="text-[9px] font-medium tracking-[0.18em] text-accent-cyan uppercase sm:text-[10px] sm:tracking-[0.2em]">
-            Featured
-          </p>
-          <p className="mt-0.5 line-clamp-2 font-display text-base font-semibold text-text-primary sm:mt-1 sm:text-lg md:text-xl">
-            {featured?.title}
-          </p>
-        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/30 via-transparent to-transparent" />
+        <span className="hero-portrait-ring" aria-hidden="true" />
       </div>
 
-      {miniProjects.map((project, i) => (
-        <div
-          key={project.id}
-          className={`absolute z-10 hidden overflow-hidden rounded-xl border border-border bg-bg-elevated/95 shadow-lg backdrop-blur-sm md:block ${
-            i === 0 ? '-bottom-6 -left-8 w-36' : '-top-4 -right-6 w-32'
-          }`}
-          data-hero-depth={i === 0 ? '0.6' : '0.8'}
-        >
-          <OptimizedImage
-            src={project.thumbnail}
-            alt={project.title}
-            className="aspect-video w-full object-cover"
-            width={160}
-            height={90}
-          />
-          <p className="truncate px-2 py-1.5 text-[10px] font-medium text-text-secondary">
-            {project.title}
-          </p>
-        </div>
-      ))}
+      <div className="absolute -bottom-1 left-1/2 w-max -translate-x-1/2 rounded-full border border-border/80 bg-bg-primary/90 px-4 py-2 backdrop-blur-md lg:bottom-2">
+        <p className="text-center font-display text-sm font-semibold text-text-primary">{profile.name}</p>
+        <p className="text-center text-[10px] tracking-[0.22em] text-accent-warm uppercase">{profile.gamertag}</p>
+      </div>
     </div>
   )
 }
 
-function ScrollIndicator({ className = '' }) {
+function HeroStats({ stats }) {
+  return (
+    <ul className="flex flex-row flex-wrap gap-x-6 gap-y-1 lg:flex-col lg:gap-0" data-hero-intro>
+      {stats.map((stat) => (
+        <li key={stat.label} className="hero-stat min-w-[calc(50%-0.75rem)] lg:min-w-0">
+          <span className="text-[10px] font-medium tracking-[0.24em] text-text-muted uppercase">{stat.label}</span>
+          <span className="hero-stat__value">{stat.value}</span>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function HeroProjectHints({ previewProjects }) {
+  if (!previewProjects.length) return null
+
+  return (
+    <div className="space-y-2.5" data-hero-intro>
+      <p className="text-[10px] font-medium tracking-[0.24em] text-text-muted uppercase">Recent builds</p>
+      <div className="flex flex-col gap-2">
+        {previewProjects.map((project) => (
+          <Link key={project.slug} to={`/project/${project.slug}`} className="group hero-project-hint">
+            <div className="hero-project-hint__thumb">
+              <OptimizedImage
+                src={project.thumbnail}
+                alt=""
+                className="h-full w-full object-cover transition-transform duration-500"
+                width={64}
+                height={48}
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-display text-sm font-semibold text-text-primary transition-colors group-hover:text-accent-warm">
+                {project.title}
+              </p>
+              <p className="text-[11px] text-text-muted">
+                {project.engine} · {project.projectType}
+              </p>
+            </div>
+            <span className="shrink-0 pr-1 text-sm text-text-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-accent-warm" aria-hidden="true">
+              →
+            </span>
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CircleCta({ onClick }) {
+  return (
+    <button type="button" onClick={onClick} className="hero-circle-cta" data-hero-intro aria-label={profile.heroCircleCta.label}>
+      <span className="flex max-w-[4.5rem] flex-col items-center gap-0.5 text-center">
+        <span className="text-[9px] tracking-[0.2em] text-text-muted uppercase">{profile.heroCircleCta.eyebrow}</span>
+        <span className="font-display text-xs font-semibold leading-tight sm:text-sm">{profile.heroCircleCta.label}</span>
+      </span>
+      <span className="hero-circle-cta__arrow" aria-hidden="true">↗</span>
+    </button>
+  )
+}
+
+function ScrollCue({ className = '' }) {
   const { scrollTo } = useLenis()
 
   return (
     <button
       type="button"
       onClick={() => scrollToSection('#projects', scrollTo)}
-      className={`group flex flex-col items-center gap-1.5 text-text-muted transition-colors duration-300 hover:text-accent-cyan sm:gap-2 ${className}`}
+      className={`group flex items-center gap-3 text-text-muted transition-colors hover:text-accent-warm ${className}`}
       aria-label="Scroll to projects"
     >
-      <span className="text-[10px] tracking-[0.25em] uppercase">Scroll</span>
-      <span className="flex h-9 w-5 items-start justify-center rounded-full border border-border p-1 sm:h-10 sm:w-6 sm:p-1.5">
-        <span className="h-1.5 w-1 animate-bounce rounded-full bg-accent-cyan sm:h-2" />
+      <span className="text-[10px] tracking-[0.28em] uppercase">Scroll</span>
+      <span className="flex h-9 w-5 items-start justify-center border border-border p-1">
+        <span className="h-1.5 w-px animate-bounce bg-accent-warm" />
       </span>
     </button>
   )
+}
+
+function buildHeroStats(projectList) {
+  const jamCount = projectList.filter((p) => p.tags?.includes('GAME_JAM')).length
+
+  return [
+    { label: 'Projects Built', value: `${projectList.length}+` },
+    { label: 'Primary Focus', value: 'Gameplay' },
+    { label: 'Game Jams', value: jamCount > 0 ? `${jamCount}` : '—' },
+    { label: 'Availability', value: profile.heroStatus.split(' ')[0] },
+  ]
 }
 
 export function Hero() {
   const { scrollTo } = useLenis()
   const sectionRef = useRef(null)
   const containerRef = useRef(null)
-  const showcaseRef = useRef(null)
+
+  const sorted = sortProjects(projects)
+  const previewProjects = useMemo(() => {
+    const primary = sorted.find((p) => getProjectLayoutFromTags(p.tags) === 'primary')
+    const secondary = sorted.find(
+      (p) => p !== primary && getProjectLayoutFromTags(p.tags) === 'secondary',
+    )
+    return [primary, secondary].filter(Boolean).slice(0, 2)
+  }, [sorted])
+
+  const stats = useMemo(() => buildHeroStats(projects), [])
 
   useHeroIntro(containerRef)
-  useHeroMouseParallax(sectionRef, showcaseRef)
+
+  const goToProjects = () => scrollToSection('#projects', scrollTo)
+  const goToContact = () => scrollToSection('#contact', scrollTo)
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      className="relative overflow-hidden pb-8 pt-[calc(3.75rem+env(safe-area-inset-top,0px))] md:min-h-[100svh] md:flex md:flex-col md:justify-center md:pb-0 lg:pt-20"
+      className="hero-arena hero-viewport relative min-h-[100svh] overflow-hidden pt-[calc(3.75rem+env(safe-area-inset-top,0px))]"
     >
-      <CinematicBackground sectionRef={sectionRef} />
-      <SubtleParticles />
+      <HeroEnvironment sectionRef={sectionRef} />
 
       <div
         ref={containerRef}
-        className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-6 px-4 py-8 sm:gap-8 sm:px-6 sm:py-10 md:grid-cols-2 md:gap-10 md:px-10 md:py-14 lg:gap-16 lg:py-20"
+        className="hero-viewport__inner relative z-10 mx-auto flex min-h-[calc(100svh-3.75rem)] max-w-7xl flex-col px-4 sm:px-6 md:px-10 lg:min-h-0 lg:px-8 lg:pb-5 lg:pt-2 xl:px-10 xl:pb-6"
       >
-        <div className="min-w-0">
-          <p
-            className="mb-3 text-[11px] font-medium tracking-[0.2em] text-accent-cyan uppercase sm:mb-4 sm:text-xs sm:tracking-[0.25em] md:mb-5 md:text-sm"
-            data-hero-intro
-          >
-            {profile.heroIntro}
-          </p>
+        {/* Main three-column body */}
+        <div className="grid min-h-0 flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.95fr)] lg:items-center lg:gap-6 xl:gap-10">
+          {/* Left — copy & CTA */}
+          <div className="relative z-20 flex min-h-0 flex-col justify-center lg:max-w-md xl:max-w-lg">
+            <p className="text-[11px] font-medium tracking-[0.3em] text-text-muted uppercase" data-hero-intro>
+              {profile.heroEyebrow}
+            </p>
 
-          <h1
-            data-hero-headline
-            className="hero-headline font-display font-extrabold tracking-tight text-text-primary"
-          >
-            {profile.heroHeadline.map((line) => (
-              <span key={line.text} className="block" data-hero-intro>
-                {line.highlight ? (
-                  <span className="text-gradient-cyan">{line.text}</span>
-                ) : (
-                  line.text
-                )}
+            <h1 data-hero-headline className="hero-headline mt-3 text-text-primary sm:mt-4">
+              <span className="hero-headline--primary block">
+                <span className="text-gradient-warm">{profile.heroHeadline.primary}</span>
               </span>
-            ))}
-          </h1>
+              <span className="hero-headline--accent block">{profile.heroHeadline.accent}</span>
+            </h1>
 
-          <p
-            className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary sm:mt-5 sm:text-base md:mt-8 md:text-lg"
-            data-hero-intro
-          >
-            {profile.heroStatement}
-          </p>
+            <div className="mt-4 flex flex-wrap gap-2 sm:mt-5" data-hero-intro>
+              {profile.heroTags.map((tag) => (
+                <span key={tag} className="hero-tag-pill">
+                  {tag}
+                </span>
+              ))}
+            </div>
 
-          <div
-            className="mt-5 flex w-full flex-col gap-2.5 min-[420px]:flex-row min-[420px]:flex-wrap min-[420px]:items-center sm:mt-6 sm:gap-3 md:mt-8 md:gap-4 lg:mt-10"
-            data-hero-intro
-          >
-            <Button
-              className="btn-glow w-full min-[420px]:w-auto"
-              onClick={() => scrollToSection('#projects', scrollTo)}
-            >
-              View Projects
-            </Button>
-            <Button
-              variant="ghost"
-              className="w-full min-[420px]:w-auto"
-              onClick={() => scrollToSection('#contact', scrollTo)}
-            >
-              Contact
-            </Button>
+            <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary sm:mt-5 sm:text-base lg:mt-4 lg:text-[0.9375rem] xl:mt-5 xl:text-base" data-hero-intro>
+              {profile.heroStatement}
+            </p>
+
+            <div className="mt-5 flex flex-wrap items-center gap-4 sm:mt-6 lg:mt-5 xl:mt-6" data-hero-intro>
+              <button type="button" className="hero-cta-primary" onClick={goToContact}>
+                Get in Touch
+              </button>
+              <CircleCta onClick={goToProjects} />
+            </div>
+
+            <div className="mt-5 flex items-center gap-2 sm:mt-6 lg:hidden" data-hero-intro>
+              <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-accent-warm uppercase">
+                <span className="h-1.5 w-1.5 rounded-full bg-accent-warm shadow-[0_0_8px_rgb(251_191_36/0.8)]" />
+                {profile.heroStatus}
+              </span>
+            </div>
           </div>
 
-          <div className="mt-5 flex flex-col items-center gap-4 sm:mt-6 sm:flex-row sm:items-center sm:justify-between md:mt-8" data-hero-intro>
-            <SocialLinks social={profile.social} size="sm" />
-            <ScrollIndicator className="md:hidden" />
+          {/* Center — portrait showcase */}
+          <div className="relative flex items-center justify-center lg:px-2 xl:px-4">
+            <HeroPortraitShowcase />
+          </div>
+
+          {/* Right — stats & project hints */}
+          <div className="flex min-h-0 flex-col justify-center gap-5 lg:max-w-xs lg:gap-6 xl:max-w-sm xl:gap-7">
+            <HeroStats stats={stats} />
+            <HeroProjectHints previewProjects={previewProjects} />
           </div>
         </div>
 
-        <div className="min-w-0" data-hero-intro>
-          <HeroVisual showcaseRef={showcaseRef} />
-          <MobileSkillPills />
+        {/* Footer bar */}
+        <div className="mt-8 flex shrink-0 flex-col items-start justify-between gap-4 border-t border-border/50 pt-5 sm:flex-row sm:items-center lg:mt-4 lg:pt-4 xl:mt-5" data-hero-intro>
+          <p className="max-w-sm text-sm text-text-secondary lg:text-[0.9375rem]">
+            {profile.heroTagline}
+          </p>
+
+          <div className="flex w-full items-center justify-between gap-4 sm:w-auto sm:justify-end">
+            <ScrollCue className="lg:hidden" />
+            <SocialLinks social={profile.social} size="sm" />
+          </div>
         </div>
       </div>
-
-      <ScrollIndicator className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 md:bottom-8 md:flex" />
     </section>
   )
 }

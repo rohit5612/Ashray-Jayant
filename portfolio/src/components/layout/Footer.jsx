@@ -24,7 +24,7 @@ export default function Footer() {
           <img
             src={profile.avatar}
             alt=""
-            className="h-8 w-8 rounded-full border border-border object-cover"
+            className="h-8 w-8 rounded-full border border-border object-cover object-[center_18%]"
             width={32}
             height={32}
           />

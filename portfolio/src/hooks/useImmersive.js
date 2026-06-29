@@ -27,7 +27,7 @@ export function useHeroIntro(containerRef) {
 
         const headline = el.querySelector('[data-hero-headline]')
         if (headline) {
-          const lines = headline.querySelectorAll('span.block')
+          const lines = headline.querySelectorAll('.hero-headline--primary, .hero-headline--accent')
           gsap.set(lines, { opacity: 0, y: 30 })
           gsap.to(lines, {
             opacity: 1,

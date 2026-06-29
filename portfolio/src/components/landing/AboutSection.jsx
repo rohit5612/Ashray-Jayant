@@ -36,6 +36,7 @@ export default function AboutSection() {
                 src={profile.avatar}
                 alt={`Portrait of ${profile.name}`}
                 className="aspect-[4/5] w-full"
+            imgClassName="object-[center_18%]"
                 width={400}
                 height={500}
                 priority
