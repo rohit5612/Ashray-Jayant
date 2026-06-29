@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Video assets (large files — keep local for now)
+src/assets/**/*.mp4
+src/assets/**/*.webm
+src/assets/**/*.mov
+src/assets/**/videos/
+public/**/*.mp4
+public/**/*.webm
+public/**/*.mov
