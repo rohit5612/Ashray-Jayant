@@ -104,7 +104,7 @@ function HeroPortraitShowcase() {
 
 function HeroStats({ stats }) {
   return (
-    <ul className="flex flex-row flex-wrap gap-x-6 gap-y-1 lg:flex-col lg:gap-0" data-hero-intro>
+    <ul className="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1 lg:flex-col lg:justify-start lg:gap-0" data-hero-intro>
       {stats.map((stat) => (
         <li key={stat.label} className="hero-stat min-w-[calc(50%-0.75rem)] lg:min-w-0">
           <span className="text-[10px] font-medium tracking-[0.24em] text-text-muted uppercase">{stat.label}</span>
@@ -119,7 +119,7 @@ function HeroProjectHints({ previewProjects }) {
   if (!previewProjects.length) return null
 
   return (
-    <div className="space-y-2.5" data-hero-intro>
+    <div className="w-full max-w-sm space-y-2.5 lg:max-w-none" data-hero-intro>
       <p className="text-[10px] font-medium tracking-[0.24em] text-text-muted uppercase">Recent builds</p>
       <div className="flex flex-col gap-2">
         {previewProjects.map((project) => (
@@ -225,55 +225,59 @@ export function Hero() {
         ref={containerRef}
         className="hero-viewport__inner relative z-10 mx-auto flex min-h-[calc(100svh-3.75rem)] max-w-7xl flex-col px-4 sm:px-6 md:px-10 lg:min-h-0 lg:px-8 lg:pb-5 lg:pt-2 xl:px-10 xl:pb-6"
       >
-        {/* Main three-column body */}
-        <div className="grid min-h-0 flex-1 gap-8 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.95fr)] lg:items-center lg:gap-6 xl:gap-10">
-          {/* Left — copy & CTA */}
-          <div className="relative z-20 flex min-h-0 flex-col justify-center lg:max-w-md xl:max-w-lg">
-            <p className="text-[11px] font-medium tracking-[0.3em] text-text-muted uppercase" data-hero-intro>
-              {profile.heroEyebrow}
-            </p>
+        {/* Main three-column body; on mobile, copy splits above/below centered portrait */}
+        <div className="grid min-h-0 flex-1 gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.95fr)] lg:items-center lg:gap-6 xl:gap-10">
+          {/* Left — copy & CTA (contents on mobile so children reorder around portrait) */}
+          <div className="contents lg:flex lg:min-h-0 lg:flex-col lg:justify-center lg:max-w-md xl:max-w-lg">
+            <div className="relative z-20 order-1 flex flex-col items-center text-center lg:order-none lg:items-start lg:text-left">
+              <p className="text-[11px] font-medium tracking-[0.3em] text-text-muted uppercase" data-hero-intro>
+                {profile.heroEyebrow}
+              </p>
 
-            <h1 data-hero-headline className="hero-headline mt-3 text-text-primary sm:mt-4">
-              <span className="hero-headline--primary block">
-                <span className="text-gradient-warm">{profile.heroHeadline.primary}</span>
-              </span>
-              <span className="hero-headline--accent block">{profile.heroHeadline.accent}</span>
-            </h1>
-
-            <div className="mt-4 flex flex-wrap gap-2 sm:mt-5" data-hero-intro>
-              {profile.heroTags.map((tag) => (
-                <span key={tag} className="hero-tag-pill">
-                  {tag}
+              <h1 data-hero-headline className="hero-headline mt-3 text-text-primary sm:mt-4">
+                <span className="hero-headline--primary block">
+                  <span className="text-gradient-warm">{profile.heroHeadline.primary}</span>
                 </span>
-              ))}
+                <span className="hero-headline--accent block">{profile.heroHeadline.accent}</span>
+              </h1>
+
+              <div className="mt-4 flex flex-wrap justify-center gap-2 sm:mt-5 lg:justify-start" data-hero-intro>
+                {profile.heroTags.map((tag) => (
+                  <span key={tag} className="hero-tag-pill">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-text-secondary sm:mt-5 sm:text-base lg:mt-4 lg:text-[0.9375rem] xl:mt-5 xl:text-base" data-hero-intro>
-              {profile.heroStatement}
-            </p>
+            <div className="relative z-20 order-3 flex flex-col items-center text-center lg:order-none lg:items-start lg:text-left">
+              <p className="mt-0 max-w-md text-sm leading-relaxed text-text-secondary sm:text-base lg:mt-4 lg:text-[0.9375rem] xl:mt-5 xl:text-base" data-hero-intro>
+                {profile.heroStatement}
+              </p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-4 sm:mt-6 lg:mt-5 xl:mt-6" data-hero-intro>
-              <button type="button" className="hero-cta-primary" onClick={goToContact}>
-                Get in Touch
-              </button>
-              <CircleCta onClick={goToProjects} />
-            </div>
+              <div className="mt-5 flex flex-wrap items-center justify-center gap-4 sm:mt-6 lg:mt-5 lg:justify-start xl:mt-6" data-hero-intro>
+                <button type="button" className="hero-cta-primary" onClick={goToContact}>
+                  Get in Touch
+                </button>
+                <CircleCta onClick={goToProjects} />
+              </div>
 
-            <div className="mt-5 flex items-center gap-2 sm:mt-6 lg:hidden" data-hero-intro>
-              <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-accent-warm uppercase">
-                <span className="h-1.5 w-1.5 rounded-full bg-accent-warm shadow-[0_0_8px_rgb(251_191_36/0.8)]" />
-                {profile.heroStatus}
-              </span>
+              <div className="mt-5 flex items-center justify-center gap-2 sm:mt-6 lg:hidden" data-hero-intro>
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] tracking-[0.2em] text-accent-warm uppercase">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent-warm shadow-[0_0_8px_rgb(251_191_36/0.8)]" />
+                  {profile.heroStatus}
+                </span>
+              </div>
             </div>
           </div>
 
           {/* Center — portrait showcase */}
-          <div className="relative flex items-center justify-center lg:px-2 xl:px-4">
+          <div className="relative order-2 flex items-center justify-center lg:order-none lg:px-2 xl:px-4">
             <HeroPortraitShowcase />
           </div>
 
           {/* Right — stats & project hints */}
-          <div className="flex min-h-0 flex-col justify-center gap-5 lg:max-w-xs lg:gap-6 xl:max-w-sm xl:gap-7">
+          <div className="order-4 flex min-h-0 flex-col items-center justify-center gap-5 text-center lg:order-none lg:max-w-xs lg:items-start lg:text-left lg:gap-6 xl:max-w-sm xl:gap-7">
             <HeroStats stats={stats} />
             <HeroProjectHints previewProjects={previewProjects} />
           </div>
