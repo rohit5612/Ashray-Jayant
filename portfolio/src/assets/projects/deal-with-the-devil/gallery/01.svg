@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#111111"/>
+  <rect x="60" y="60" width="1080" height="555" fill="#1e3a5f" opacity="0.5"/>
+  <text x="80" y="120" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="28">Combat  Gallery 01</text>
+</svg>

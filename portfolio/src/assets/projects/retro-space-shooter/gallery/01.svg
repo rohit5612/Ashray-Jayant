@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#080808"/>
+  <rect x="100" y="200" width="1000" height="80" fill="#4fd1c5" opacity="0.2" rx="4"/>
+  <text x="80" y="120" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="28">Arcade Waves  Gallery 01</text>
+</svg>

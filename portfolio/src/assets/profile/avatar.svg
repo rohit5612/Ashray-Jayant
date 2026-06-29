@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#5b4d82"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0891b2" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="transparent"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg)"/>
+  <ellipse cx="200" cy="320" rx="120" ry="40" fill="#080808" opacity="0.15"/>
+  <circle cx="200" cy="165" r="72" fill="#f3f4f6" opacity="0.95"/>
+  <ellipse cx="200" cy="290" rx="90" ry="110" fill="#f3f4f6" opacity="0.95"/>
+  <rect width="400" height="400" fill="url(#shine)"/>
+  <text x="200" y="370" text-anchor="middle" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="14" opacity="0.7">Replace with photo</text>
+</svg>
